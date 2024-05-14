@@ -10,6 +10,20 @@ local render_scale = 0
 local render_translate_x = 0
 local render_translate_y = 0
 
+local shader = love.graphics.newShader[[
+extern number width;
+extern number phase;
+extern number thickness;
+extern number opacity;
+extern vec3 color;
+vec4 effect(vec4 c, Image tex, vec2 tc, vec2 _) {
+	number v = .5*(sin(tc.y * 3.14159 / width * love_ScreenSize.y + phase) + 1.);
+	c = Texel(tex,tc);
+	//c.rgb = mix(color, c.rgb, mix(1, pow(v, thickness), opacity));
+	c.rgb -= (color - c.rgb) * (pow(v,thickness) - 1.0) * opacity;
+	return c;
+}]]
+
 function love.load()
 	math.randomseed(os.time())
 	love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, { resizable = true })
@@ -18,6 +32,7 @@ function love.load()
 end
 
 function love.update(dt)
+
 	game:update(dt)
 end
 
@@ -35,11 +50,18 @@ end
 function love.draw()
 	love.graphics.setCanvas(framebuffer)
 		love.graphics.clear()
+		love.graphics.setShader()
 		love.graphics.setColor(0.2, 0.2, 0.2)
 		love.graphics.rectangle("fill", 0, 0, RENDER_TARGET_WIDTH, RENDER_TARGET_HEIGHT)
 			game:draw()
 		love.graphics.translate(render_translate_x, render_translate_y)
 		love.graphics.scale(render_scale)
+		love.graphics.setShader(shader)
+		shader:send("width", 2)
+		shader:send("phase", 0)
+		shader:send("thickness", 1)
+		shader:send("opacity", 0.5)
+		shader:send("color", { 0, 0, 0 })
 	love.graphics.setCanvas()
 
 	love.graphics.setColor(1, 1, 1);
