@@ -4,7 +4,7 @@ local game = GameState:new()
 
 local WINDOW_WIDTH = 640
 local WINDOW_HEIGHT = 360
-local framebuffer = love.graphics.newCanvas(WINDOW_WIDTH, WINDOW_HEIGHT)
+local framebuffer = love.graphics.newCanvas(RENDER_TARGET_WIDTH, RENDER_TARGET_HEIGHT)
 framebuffer:setFilter('nearest', 'nearest')
 local render_scale = 0
 local render_translate_x = 0
