@@ -77,7 +77,7 @@ function GameState:handle_collision()
 		self.ball.dy = -self.ball.dy
 	end
 
-	if self.ball.x < 0 or self.ball.x > RENDER_TARGET_WIDTH then
+	if self.ball.x < 0 or self.ball.x + BALL_SIZE > RENDER_TARGET_WIDTH then
 		self.ball.x = RENDER_TARGET_WIDTH / 2 - BALL_SIZE
 		self.ball.y = RENDER_TARGET_HEIGHT / 2 - BALL_SIZE
 		self.ball.dy = math.random(-50, 50)
