@@ -1,16 +1,17 @@
 require('src.dependencies')
 
+math.randomseed(os.time())
+
 local game = GameState:new()
 
 local WINDOW_WIDTH = 640
 local WINDOW_HEIGHT = 360
 local framebuffer = love.graphics.newCanvas(RENDER_TARGET_WIDTH, RENDER_TARGET_HEIGHT)
-framebuffer:setFilter('nearest', 'nearest')
 local render_scale = 0
 local render_translate_x = 0
 local render_translate_y = 0
 
-local shader = love.graphics.newShader[[
+local scanlines_shader = love.graphics.newShader[[
 extern number width;
 extern number phase;
 extern number thickness;
@@ -25,14 +26,14 @@ vec4 effect(vec4 c, Image tex, vec2 tc, vec2 _) {
 }]]
 
 function love.load()
-	math.randomseed(os.time())
 	love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, { resizable = true })
 	love.window.setTitle('Tennis')
+	love.graphics.setBackgroundColor(0, 0, 0)
+	framebuffer:setFilter('nearest', 'nearest')
 	love.resize(WINDOW_WIDTH, WINDOW_HEIGHT)
 end
 
 function love.update(dt)
-
 	game:update(dt)
 end
 
@@ -56,15 +57,16 @@ function love.draw()
 			game:draw()
 		love.graphics.translate(render_translate_x, render_translate_y)
 		love.graphics.scale(render_scale)
-		love.graphics.setShader(shader)
-		shader:send("width", 2)
-		shader:send("phase", 0)
-		shader:send("thickness", 1)
-		shader:send("opacity", 0.5)
-		shader:send("color", { 0, 0, 0 })
+		love.graphics.setShader(scanlines_shader)
+		scanlines_shader:send("width", 2)
+		scanlines_shader:send("phase", 0)
+		scanlines_shader:send("thickness", 1)
+		scanlines_shader:send("opacity", 0.5)
+		scanlines_shader:send("color", { 0, 0, 0 })
 	love.graphics.setCanvas()
 
 	love.graphics.setColor(1, 1, 1);
+	-- When using the default shader anything drawn with this function will be tinted according to the currently selected color. Set it to pure white to preserve the object's original colors. 
 	love.graphics.draw(framebuffer)
 end
 
