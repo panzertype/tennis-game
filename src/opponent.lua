@@ -1,18 +1,19 @@
----@class (exact) Player
+
+---@class (exact) Opponent
 ---@field x number
 ---@field y number
 ---@field width number
 ---@field height number
-Player = {}
+Opponent = {}
 
----@param o Player
-function Player:new(o)
+---@param o Opponent
+function Opponent:new(o)
     o = o or {}
     setmetatable(o, { __index = self })
     return o
 end
 
-function Player:update(dt)
+function Opponent:update(dt)
     local speed = 100
     if love.keyboard.isDown("up") then
 	self.y = self.y - speed * dt
@@ -28,11 +29,12 @@ function Player:update(dt)
  --    end
 end
 
-local player_sprite = love.graphics.newImage("assets/player.png")
 
-function Player:draw()
+local opponent_sprite = love.graphics.newImage("assets/opponent.png")
+
+function Opponent:draw()
     love.graphics.setColor(1, 1, 1)
     love.graphics.rectangle('line', self.x, self.y, self.width, self.height)
-    love.graphics.draw(player_sprite, self.x, self.y, 0, 2)
+    love.graphics.draw(opponent_sprite, self.x, self.y, 0, 2)
 end
 
