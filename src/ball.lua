@@ -22,7 +22,5 @@ end
 function Ball:draw()
     love.graphics.setColor(1, 1, 0)
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-    love.graphics.setColor(1, 0, 0)
-    love.graphics.rectangle("fill", self.x, self.y, 2, 2)
 end
 

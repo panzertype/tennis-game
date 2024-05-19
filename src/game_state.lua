@@ -4,21 +4,44 @@
 ---@field ball Ball
 GameState = {}
 
-local PLAYER_WIDTH = 26
-local PLAYER_HEIGHT = 24
-local BALL_SIZE = 10
-local BALL_SPEED_MULTIPLIER = 1.03
-local RACKET_HIT_SOUND = love.audio.newSource("assets/racket-hit.mp3", "stream")
-local SCORE_PADDING = 50
+local PLAYERS_WIDTH = 26
+local PLAYERS_HEIGHT = 24
+local PLAYERS_PADDING = 16
+local PLAYERS_STARTING_Y = RENDER_TARGET_HEIGHT / 2 - PLAYERS_HEIGHT / 2
 
-local font = love.graphics.newFont(14)
+local BALL_SIZE = 5
+local BALL_SPEED_MULTIPLIER = 1.03
+
+local RACKET_HIT_SOUND = love.audio.newSource("assets/racket-hit.mp3", "stream")
+
+local SCORE_PADDING = 50
+local FONT_SIZE = 14
+
+local font = love.graphics.newFont(FONT_SIZE)
 local player_score = 0
 local opponent_score = 0
 
 function GameState:new()
-    self.player = Player:new{ x = 0, y = 50, width = PLAYER_WIDTH, height = PLAYER_HEIGHT }
-    self.opponent = Opponent:new{ x = RENDER_TARGET_WIDTH - PLAYER_WIDTH, y = 50, width = PLAYER_WIDTH, height = PLAYER_HEIGHT }
-    self.ball = Ball:new{ x = RENDER_TARGET_WIDTH / 2 - BALL_SIZE, y = RENDER_TARGET_HEIGHT / 2 - BALL_SIZE, width = BALL_SIZE, height = BALL_SIZE, dx = 0, dy = 0 }
+    self.player = Player:new{
+	x = PLAYERS_PADDING,
+	y = PLAYERS_STARTING_Y,
+	width = PLAYERS_WIDTH,
+	height = PLAYERS_HEIGHT
+    }
+    self.opponent = Opponent:new{
+	x = RENDER_TARGET_WIDTH - PLAYERS_WIDTH - PLAYERS_PADDING,
+	y = PLAYERS_STARTING_Y,
+	width = PLAYERS_WIDTH,
+	height = PLAYERS_HEIGHT
+    }
+    self.ball = Ball:new{
+	x = RENDER_TARGET_WIDTH / 2 - BALL_SIZE,
+	y = RENDER_TARGET_HEIGHT / 2 - BALL_SIZE,
+	width = BALL_SIZE,
+	height = BALL_SIZE,
+	dx = 0,
+	dy = 0
+    }
     self.ball.dy = math.random(-50, 50)
     local dx = math.random(140, 200)
     self.ball.dx = math.random() % 2 and dx or -dx
@@ -65,7 +88,7 @@ function GameState:handle_collision()
 	print(self.ball.x, self.ball.y)
 
 	self.ball.dx = -self.ball.dx * BALL_SPEED_MULTIPLIER
-	self.ball.x = self.player.x + PLAYER_WIDTH
+	self.ball.x = self.player.x + PLAYERS_WIDTH
 
 	-- keep velocity going in the same direction, but randomize it
 	if self.ball.dy < 0 then

@@ -32,7 +32,7 @@ local player_sprite = love.graphics.newImage("assets/player.png")
 
 function Player:draw()
     love.graphics.setColor(1, 1, 1)
-    love.graphics.rectangle('line', self.x, self.y, self.width, self.height)
+    -- love.graphics.rectangle('line', self.x, self.y, self.width, self.height)
     love.graphics.draw(player_sprite, self.x, self.y, 0, 2)
 end
 
