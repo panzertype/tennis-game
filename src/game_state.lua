@@ -9,6 +9,11 @@ local PLAYER_HEIGHT = 24
 local BALL_SIZE = 10
 local BALL_SPEED_MULTIPLIER = 1.03
 local RACKET_HIT_SOUND = love.audio.newSource("assets/racket-hit.mp3", "stream")
+local SCORE_PADDING = 50
+
+local font = love.graphics.newFont(14)
+local player_score = 0
+local opponent_score = 0
 
 function GameState:new()
     self.player = Player:new{ x = 0, y = 50, width = PLAYER_WIDTH, height = PLAYER_HEIGHT }
@@ -30,9 +35,27 @@ end
 function GameState:draw()
     love.graphics.setColor(0, 1, 1)
     love.graphics.line(RENDER_TARGET_WIDTH / 2, 0, RENDER_TARGET_WIDTH / 2, RENDER_TARGET_HEIGHT)
+    self:draw_score()
     self.player:draw()
     self.opponent:draw()
     self.ball:draw()
+end
+
+---@private
+function GameState:draw_score()
+    local player_score_text = tostring(player_score)
+    local opponent_score_text = tostring(opponent_score)
+    local half_font_height = font:getHeight() / 2
+    love.graphics.print(
+	player_score_text,
+	RENDER_TARGET_WIDTH / 2 - SCORE_PADDING - font:getWidth(player_score_text),
+	RENDER_TARGET_HEIGHT / 2 - half_font_height
+    )
+    love.graphics.print(
+	opponent_score_text,
+	RENDER_TARGET_WIDTH / 2 + SCORE_PADDING,
+	RENDER_TARGET_HEIGHT / 2 - half_font_height
+    )
 end
 
 ---@private
@@ -77,11 +100,20 @@ function GameState:handle_collision()
 	self.ball.dy = -self.ball.dy
     end
 
-    if self.ball.x < 0 or self.ball.x + BALL_SIZE > RENDER_TARGET_WIDTH then
+    local opponent_scored = self.ball.x < 0
+    local player_scored = self.ball.x + BALL_SIZE > RENDER_TARGET_WIDTH
+
+    if opponent_scored or player_scored then
 	self.ball.x = RENDER_TARGET_WIDTH / 2 - BALL_SIZE
 	self.ball.y = RENDER_TARGET_HEIGHT / 2 - BALL_SIZE
 	self.ball.dy = math.random(-50, 50)
 	local dx = math.random(140, 200)
 	self.ball.dx = math.random() % 2 and dx or -dx
+
+	if opponent_scored then
+	    opponent_score = opponent_score + 1
+	else
+	    player_score = player_score + 1
+	end
     end
 end

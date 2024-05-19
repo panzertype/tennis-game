@@ -13,6 +13,8 @@ function Opponent:new(o)
     return o
 end
 
+---@param dt number
+---@param ball Ball
 function Opponent:update(dt, ball)
     local speed = 100
 
@@ -22,7 +24,6 @@ function Opponent:update(dt, ball)
 	self.y = self.y - speed * dt
     end
 end
-
 
 local opponent_sprite = love.graphics.newImage("assets/opponent.png")
 
