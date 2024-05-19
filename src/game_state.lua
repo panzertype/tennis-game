@@ -24,7 +24,7 @@ function GameState:update(dt)
     self:handle_collision()
     self.ball:update(dt)
     self.player:update(dt)
-    self.opponent:update(dt)
+    self.opponent:update(dt, self.ball)
 end
 
 function GameState:draw()

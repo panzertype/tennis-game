@@ -13,20 +13,14 @@ function Opponent:new(o)
     return o
 end
 
-function Opponent:update(dt)
+function Opponent:update(dt, ball)
     local speed = 100
-    if love.keyboard.isDown("up") then
+
+    if ball.y > self.y then
+	self.y = self.y + speed * dt
+    elseif ball.y < self.y then
 	self.y = self.y - speed * dt
     end
-    if love.keyboard.isDown("down") then
-	self.y = self.y + speed * dt
-    end
- --    if love.keyboard.isDown("left") then
-	-- self.x = self.x - speed * dt
- --    end
- --    if love.keyboard.isDown("right") then
-	-- self.x = self.x + speed * dt
- --    end
 end
 
 
