@@ -4,6 +4,7 @@
 ---@field ball Ball
 GameState = {}
 
+local PLAYER_SPEED = 100
 local PLAYERS_WIDTH = 26
 local PLAYERS_HEIGHT = 24
 local PLAYERS_PADDING = 16
@@ -51,6 +52,20 @@ end
 function GameState:update(dt)
     self:handle_collision()
     self.ball:update(dt)
+
+    if love.keyboard.isDown("up") then
+	local next_player_position_y = self.player.y - PLAYER_SPEED * dt
+	if next_player_position_y >= 0 then
+	    self.player.y = next_player_position_y
+	end
+    end
+    if love.keyboard.isDown("down") then
+	local next_player_position_y = self.player.y + PLAYER_SPEED * dt
+	if next_player_position_y + self.player.height <= RENDER_TARGET_HEIGHT then
+	    self.player.y = next_player_position_y
+	end
+    end
+
     self.player:update(dt)
     self.opponent:update(dt, self.ball)
 end
