@@ -4,7 +4,10 @@ require("src.constants")
 
 require("src.utils")
 
-require("src.player")
-require("src.opponent")
-require("src.ball")
+require("src.entities.player")
+require("src.entities.opponent")
+require("src.entities.ball")
+
+require("src.states.pause_state")
 require("src.game_state")
+require("src.states.playing_state")

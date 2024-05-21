@@ -4,7 +4,8 @@ require('src.dependencies')
 
 math.randomseed(os.time())
 
-local game = GameState:new()
+local playing_state = PlayingState:new()
+GAME_STATE = GameState:new({ playing_state })
 
 local WINDOW_WIDTH = 640
 local WINDOW_HEIGHT = 360
@@ -37,10 +38,13 @@ function love.load()
     music:setVolume(0.1)
     music:setLooping(true)
     music:play()
+    love.keyboard.keys_pressed = {}
 end
 
 function love.update(dt)
-    game:update(dt)
+    GAME_STATE:update(dt)
+
+    love.keyboard.keys_pressed = {}
 end
 
 function love.resize(w, h)
@@ -60,7 +64,7 @@ function love.draw()
     love.graphics.setShader()
     love.graphics.setColor(0.2, 0.2, 0.2)
     love.graphics.rectangle("fill", 0, 0, RENDER_TARGET_WIDTH, RENDER_TARGET_HEIGHT)
-    game:draw()
+    GAME_STATE:draw()
     love.graphics.translate(render_translate_x, render_translate_y)
     love.graphics.scale(render_scale)
     love.graphics.setShader(scanlines_shader)
@@ -76,3 +80,10 @@ function love.draw()
     love.graphics.draw(framebuffer)
 end
 
+function love.keypressed(key)
+    love.keyboard.keys_pressed[key] = true
+end
+
+function love.keyboard.wasPressed(key)
+    return love.keyboard.keys_pressed[key]
+end

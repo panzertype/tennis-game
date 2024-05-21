@@ -12,7 +12,7 @@ function Player:new(o)
     return o
 end
 
-function Player:update(dt)
+function Player:update()
 end
 
 local player_sprite = love.graphics.newImage("assets/player.png")
