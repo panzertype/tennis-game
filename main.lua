@@ -4,8 +4,8 @@ require('src.dependencies')
 
 math.randomseed(os.time())
 
-local playing_state = PlayingState:new()
-GAME_STATE = GameState:new({ playing_state })
+local main_menu_state = MainMenuState:new()
+GAME_STATE = GameState:new({ main_menu_state })
 
 local WINDOW_WIDTH = 640
 local WINDOW_HEIGHT = 360
@@ -39,12 +39,21 @@ function love.load()
     music:setLooping(true)
     music:play()
     love.keyboard.keys_pressed = {}
+    love.mouse.position = {
+        x = 0,
+        y = 0
+    }
 end
 
 function love.update(dt)
     GAME_STATE:update(dt)
 
     love.keyboard.keys_pressed = {}
+    local mouse_x, mouse_y = love.mouse.getPosition()
+    love.mouse.position = {
+        x = (mouse_x - render_translate_x) / render_scale,
+        y = (mouse_y - render_translate_y) / render_scale
+    }
 end
 
 function love.resize(w, h)
