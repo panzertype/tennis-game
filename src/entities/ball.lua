@@ -20,7 +20,7 @@ function Ball:update(dt)
 end
 
 function Ball:draw()
-    love.graphics.setColor(1, 1, 0)
+    love.graphics.setColor(AS_COLORS['yellow'])
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 end
 

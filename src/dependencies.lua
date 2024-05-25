@@ -1,10 +1,10 @@
 require("lib.strict")
 
-require("src.assets")
-
 require("src.constants")
 
 require("src.utils")
+
+require("src.assets")
 
 require("src.ui.button")
 

@@ -24,17 +24,12 @@ function Button:draw()
     local text_height = self.font:getHeight()
 
     if self.hovered then
-    	love.graphics.setColor(1, 1, 0)
+    	love.graphics.setColor(AS_COLORS['yellow'])
     else
-	love.graphics.setColor(1, 1, 1)
+	love.graphics.setColor(AS_COLORS['white'])
     end
     love.graphics.rectangle("line", self.x, self.y, text_width + PADDING * 2, text_height + PADDING * 2)
 
-    if self.hovered then
-    	love.graphics.setColor(1, 1, 0)
-    else
-	love.graphics.setColor(1, 1, 1)
-    end
     love.graphics.setFont(self.font)
     love.graphics.print(
 	self.text,

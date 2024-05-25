@@ -15,7 +15,7 @@ local BALL_SPEED_MULTIPLIER = 1.03
 
 local SCORE_PADDING = 50
 
-local font = AS_FONTS['medium']
+local FONT = AS_FONTS['medium']
 local player_score = 0
 local opponent_score = 0
 
@@ -79,7 +79,7 @@ function PlayingState:update_player(dt)
 end
 
 function PlayingState:draw()
-    love.graphics.setColor(0, 1, 1)
+    love.graphics.setColor(AS_COLORS['white'])
     love.graphics.line(RENDER_TARGET_WIDTH / 2, 0, RENDER_TARGET_WIDTH / 2, RENDER_TARGET_HEIGHT)
     self:draw_score()
     self.player:draw()
@@ -89,13 +89,14 @@ end
 
 ---@private
 function PlayingState:draw_score()
+    love.graphics.setColor(AS_COLORS['white'])
     local player_score_text = tostring(player_score)
     local opponent_score_text = tostring(opponent_score)
-    local half_font_height = font:getHeight() / 2
-    love.graphics.setFont(font)
+    local half_font_height = FONT:getHeight() / 2
+    love.graphics.setFont(FONT)
     love.graphics.print(
 	player_score_text,
-	RENDER_TARGET_WIDTH / 2 - SCORE_PADDING - font:getWidth(player_score_text),
+	RENDER_TARGET_WIDTH / 2 - SCORE_PADDING - FONT:getWidth(player_score_text),
 	RENDER_TARGET_HEIGHT / 2 - half_font_height
     )
     love.graphics.print(
@@ -107,7 +108,7 @@ end
 
 ---@private
 function PlayingState:handle_collision()
-    if EnitiesCollide(self.player, self.ball) then
+    if EntitiesCollide(self.player, self.ball) then
 	AS_AUDIO['racket_hit']:play()
 	print(self.ball.x, self.ball.y)
 
@@ -122,7 +123,7 @@ function PlayingState:handle_collision()
 	end
     end
 
-    if EnitiesCollide(self.opponent, self.ball) then
+    if EntitiesCollide(self.opponent, self.ball) then
 	AS_AUDIO['racket_hit']:play()
 	print(self.ball.x, self.ball.y)
 

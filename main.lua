@@ -13,7 +13,7 @@ function love.load()
     math.randomseed(os.time())
     love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, { resizable = true })
     love.window.setTitle(WINDOW_TITLE)
-    love.graphics.setBackgroundColor(0, 0, 0)
+    love.graphics.setBackgroundColor(BLACK)
     framebuffer:setFilter('nearest', 'nearest')
     love.resize(WINDOW_WIDTH, WINDOW_HEIGHT)
     local music = AS_AUDIO['music']
@@ -53,7 +53,7 @@ function love.draw()
     love.graphics.setCanvas(framebuffer)
     love.graphics.clear()
     love.graphics.setShader()
-    love.graphics.setColor(0.2, 0.2, 0.2)
+    love.graphics.setColor(AS_COLORS['gray'])
     love.graphics.rectangle("fill", 0, 0, RENDER_TARGET_WIDTH, RENDER_TARGET_HEIGHT)
     GAME_STATE:draw()
     love.graphics.translate(render_translate_x, render_translate_y)
@@ -61,7 +61,7 @@ function love.draw()
     love.graphics.setShader(AS_SHADERS['scanlines'])
     love.graphics.setCanvas()
 
-    love.graphics.setColor(1, 1, 1);
+    love.graphics.setColor(WHITE);
     -- When using the default shader anything drawn with this function will be tinted according to the currently selected color. Set it to pure white to preserve the object's original colors. 
     love.graphics.draw(framebuffer)
 end

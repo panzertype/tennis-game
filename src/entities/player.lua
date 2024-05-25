@@ -16,11 +16,11 @@ function Player:update()
 end
 
 function Player:draw()
-    love.graphics.setColor(1, 1, 1)
+    love.graphics.setColor(WHITE)
 
     local shader = love.graphics.newShader(BLEND_COLOR_SHADER)
     love.graphics.setShader(shader)
-    shader:send("blendColor", {1.0, 0.0, 0.0})
+    shader:send("blendColor", AS_COLORS['red'])
     love.graphics.draw(AS_GRAPHICS['tennisist'], self.x, self.y, 0, 2)
     love.graphics.setShader()
 end
