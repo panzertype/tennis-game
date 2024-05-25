@@ -15,11 +15,15 @@ end
 function Player:update()
 end
 
-local player_sprite = love.graphics.newImage("assets/player.png")
+local player_sprite = love.graphics.newImage("assets/tennisist.png")
 
 function Player:draw()
     love.graphics.setColor(1, 1, 1)
-    -- love.graphics.rectangle('line', self.x, self.y, self.width, self.height)
+
+    local shader = love.graphics.newShader(BLEND_COLOR_SHADER)
+    love.graphics.setShader(shader)
+    shader:send("blendColor", {1.0, 0.0, 0.0})
     love.graphics.draw(player_sprite, self.x, self.y, 0, 2)
+    love.graphics.setShader()
 end
 
