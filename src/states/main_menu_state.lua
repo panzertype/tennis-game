@@ -2,10 +2,13 @@
 ---@field buttons Button[]
 MainMenuState = {}
 
+local font = AS_FONTS['small']
+
 local START_GAME_BUTTON = Button:new({
-    text = "Start",
-    x = RENDER_TARGET_WIDTH / 2,
-    y = RENDER_TARGET_HEIGHT / 2,
+    text = UI_START_BUTTON_TEXT,
+    x = RENDER_TARGET_WIDTH / 2 - font:getWidth(UI_START_BUTTON_TEXT) / 2 - UI_BUTTON_DEFAULT_PADDING,
+    y = RENDER_TARGET_HEIGHT / 2 - font:getHeight(),
+    font = font,
     on_press = function ()
 	GameState:pop()
 	GameState:push(PlayingState:new())

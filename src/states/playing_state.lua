@@ -13,12 +13,9 @@ local PLAYERS_STARTING_Y = RENDER_TARGET_HEIGHT / 2 - PLAYERS_HEIGHT / 2
 local BALL_SIZE = 5
 local BALL_SPEED_MULTIPLIER = 1.03
 
-local RACKET_HIT_SOUND = love.audio.newSource("assets/racket-hit.mp3", "stream")
-
 local SCORE_PADDING = 50
-local FONT_SIZE = 14
 
-local font = love.graphics.newFont(FONT_SIZE)
+local font = AS_FONTS['medium']
 local player_score = 0
 local opponent_score = 0
 
@@ -111,7 +108,7 @@ end
 ---@private
 function PlayingState:handle_collision()
     if EnitiesCollide(self.player, self.ball) then
-	RACKET_HIT_SOUND:play()
+	AS_AUDIO['racket_hit']:play()
 	print(self.ball.x, self.ball.y)
 
 	self.ball.dx = -self.ball.dx * BALL_SPEED_MULTIPLIER
@@ -126,7 +123,7 @@ function PlayingState:handle_collision()
     end
 
     if EnitiesCollide(self.opponent, self.ball) then
-	RACKET_HIT_SOUND:play()
+	AS_AUDIO['racket_hit']:play()
 	print(self.ball.x, self.ball.y)
 
 	self.ball.dx = -self.ball.dx * BALL_SPEED_MULTIPLIER

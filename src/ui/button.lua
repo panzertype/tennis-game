@@ -2,25 +2,26 @@
 ---@field hovered boolean
 ---@field on_press function
 ---@field text string
+---@field font love.Font
 ---@field x number
 ---@field y number
 Button = {}
 
-local DEFAULT_FONT_SIZE = 14
-local PADDING = 8
-local font = love.graphics.newFont(DEFAULT_FONT_SIZE)
+local font = AS_FONTS['small']
+local PADDING = UI_BUTTON_DEFAULT_PADDING
 
 function Button:new(o)
     o = o or {}
     self.on_press = function ()	end
     self.hovered = false
+    self.font = font
     setmetatable(o, { __index = self })
     return o
 end
 
 function Button:draw()
-    local text_width = font:getWidth(self.text)
-    local text_height = font:getHeight()
+    local text_width = self.font:getWidth(self.text)
+    local text_height = self.font:getHeight()
 
     if self.hovered then
     	love.graphics.setColor(1, 1, 0)
@@ -34,7 +35,7 @@ function Button:draw()
     else
 	love.graphics.setColor(1, 1, 1)
     end
-    love.graphics.setFont(font)
+    love.graphics.setFont(self.font)
     love.graphics.print(
 	self.text,
 	self.x + PADDING,
@@ -54,10 +55,10 @@ function Button:update()
 end
 
 function Button:getHeight()
-    return font:getHeight() + PADDING * 2
+    return self.font:getHeight() + PADDING * 2
 end
 
 function Button:getWidth()
-    return font:getWidth(self.text) + PADDING * 2
+    return self.font:getWidth(self.text) + PADDING * 2
 end
 

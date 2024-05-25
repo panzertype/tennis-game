@@ -8,11 +8,10 @@ function PauseState:new(o)
 end
 
 
-local FONT_SIZE = 24
-local font = love.graphics.newFont(FONT_SIZE)
+local font = AS_FONTS['large']
 local PAUSE_TEXT = "-- PAUSED --"
 local PAUSE_TEXT_WIDTH = font:getWidth(PAUSE_TEXT)
-local PAUSE_TEXT_PADDING = FONT_SIZE
+local PAUSE_TEXT_PADDING = font:getHeight()
 
 function PauseState:draw()
     love.graphics.setColor(0, 0, 0, 0.6);

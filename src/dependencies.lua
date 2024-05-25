@@ -1,6 +1,6 @@
 require("lib.strict")
 
-require("src.shaders.blend_color_shader")
+require("src.assets")
 
 require("src.constants")
 

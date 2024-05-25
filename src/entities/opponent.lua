@@ -26,11 +26,14 @@ function Opponent:update(dt, ball)
     end
 end
 
-local opponent_sprite = love.graphics.newImage("assets/opponent.png")
-
 function Opponent:draw()
     love.graphics.setColor(1, 1, 1)
-    -- love.graphics.rectangle('line', self.x, self.y, self.width, self.height)
-    love.graphics.draw(opponent_sprite, self.x, self.y, 0, 2)
+    -- love.graphics.rectangle("line", self.x, self.y, self.height, self.width)
+
+    local shader = love.graphics.newShader(BLEND_COLOR_SHADER)
+    love.graphics.setShader(shader)
+    shader:send("blendColor", {0.0, 0.0, 1.0})
+    love.graphics.draw(AS_GRAPHICS['tennisist'], self.x + self.width, self.y, 0, -2, 2)
+    love.graphics.setShader()
 end
 
