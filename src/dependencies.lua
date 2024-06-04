@@ -6,6 +6,8 @@ require("src.utils")
 
 require("src.assets")
 
+require("src.engine.drawable_sprite")
+
 require("src.ui.button")
 
 require("src.entities.player")

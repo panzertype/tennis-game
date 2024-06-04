@@ -26,13 +26,24 @@ function PlayingState:new(o)
 	x = PLAYERS_PADDING,
 	y = PLAYERS_STARTING_Y,
 	width = PLAYERS_WIDTH,
-	height = PLAYERS_HEIGHT
+	height = PLAYERS_HEIGHT,
+	sprite = DrawableSprite:new({
+	    graphics = AS_GRAPHICS["tennisist"],
+	    rgba = AS_COLORS["red"],
+	    scale = 2
+	})
     }
     self.opponent = Opponent:new{
 	x = RENDER_TARGET_WIDTH - PLAYERS_WIDTH - PLAYERS_PADDING,
 	y = PLAYERS_STARTING_Y,
 	width = PLAYERS_WIDTH,
-	height = PLAYERS_HEIGHT
+	height = PLAYERS_HEIGHT,
+	sprite = DrawableSprite:new({
+	    graphics = AS_GRAPHICS["tennisist"],
+	    rgba = AS_COLORS["blue"],
+	    flip_h = true,
+	    scale = 2
+	})
     }
     self.ball = Ball:new{
 	x = RENDER_TARGET_WIDTH / 2 - BALL_SIZE,

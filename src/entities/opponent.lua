@@ -1,9 +1,9 @@
-
 ---@class (exact) Opponent
 ---@field x number
 ---@field y number
 ---@field width number
 ---@field height number
+---@field sprite DrawableSprite
 Opponent = {}
 
 ---@param o Opponent
@@ -27,13 +27,10 @@ function Opponent:update(dt, ball)
 end
 
 function Opponent:draw()
-    love.graphics.setColor(WHITE)
     -- love.graphics.rectangle("line", self.x, self.y, self.height, self.width)
 
-    local shader = love.graphics.newShader(BLEND_COLOR_SHADER)
-    love.graphics.setShader(shader)
-    shader:send("blendColor", AS_COLORS['blue'])
-    love.graphics.draw(AS_GRAPHICS['tennisist'], self.x + self.width, self.y, 0, -2, 2)
-    love.graphics.setShader()
+    self.sprite.x = self.x + self.width
+    self.sprite.y = self.y
+    self.sprite:draw()
 end
 
