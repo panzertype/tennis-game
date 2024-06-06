@@ -9,8 +9,9 @@ require("src.assets")
 require("src.engine.drawable_sprite")
 
 require("src.ui.button")
+require("src.ui.stack")
 
-require("src.entities.player")
+require("src.entities.tennisist")
 require("src.entities.opponent")
 require("src.entities.ball")
 

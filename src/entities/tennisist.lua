@@ -1,24 +1,23 @@
----@class (exact) Player
+---@class (exact) Tennisist
 ---@field x number
 ---@field y number
 ---@field width number
 ---@field height number
 ---@field sprite DrawableSprite
-Player = {}
+Tennisist = {}
 
----@param o Player
-function Player:new(o)
+---@param o Tennisist
+function Tennisist:new(o)
     o = o or {}
     setmetatable(o, { __index = self })
     return o
 end
 
-function Player:update()
+function Tennisist:update()
 end
 
-function Player:draw()
+function Tennisist:draw()
     self.sprite.x = self.x
     self.sprite.y = self.y
     self.sprite:draw()
 end
-

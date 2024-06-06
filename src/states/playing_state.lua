@@ -1,5 +1,5 @@
 ---@class (exact) PlayingState
----@field player Player
+---@field player Tennisist
 ---@field opponent Opponent
 ---@field ball Ball
 PlayingState = {}
@@ -22,7 +22,7 @@ local opponent_score = 0
 function PlayingState:new(o)
     o = o or {}
 
-    self.player = Player:new{
+    self.player = Tennisist:new{
 	x = PLAYERS_PADDING,
 	y = PLAYERS_STARTING_Y,
 	width = PLAYERS_WIDTH,
