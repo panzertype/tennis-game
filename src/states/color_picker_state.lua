@@ -1,7 +1,7 @@
 ---@class (exact) ColorPickerState
 ---@field stack Stack
 ---@field current_color_index number
----@field tennisist_sprite DrawableSprite 
+---@field tennisist_sprite DrawableSprite
 ColorPickerState = {}
 
 local COLORS = {

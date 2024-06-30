@@ -25,7 +25,7 @@ BLEND_COLOR_SHADER = [[
     vec3 RGBToHSL(vec3 color)
     {
 	    vec3 hsl; // init to 0 to avoid warnings ? (and reverse if + remove first part)
-	    
+	
 	    float fmin = min(min(color.r, color.g), color.b);    //Min. value of RGB
 	    float fmax = max(max(color.r, color.g), color.b);    //Max. value of RGB
 	    float delta = fmax - fmin;             //Delta RGB value
@@ -43,7 +43,7 @@ BLEND_COLOR_SHADER = [[
 			    hsl.y = delta / (fmax + fmin); // Saturation
 		    else
 			    hsl.y = delta / (2.0 - fmax - fmin); // Saturation
-		    
+		
 		    float deltaR = (((fmax - color.r) / 6.0) + (delta / 2.0)) / delta;
 		    float deltaG = (((fmax - color.g) / 6.0) + (delta / 2.0)) / delta;
 		    float deltaB = (((fmax - color.b) / 6.0) + (delta / 2.0)) / delta;
@@ -67,25 +67,25 @@ BLEND_COLOR_SHADER = [[
     vec3 HSLToRGB(vec3 hsl)
     {
 	    vec3 rgb;
-	    
+	
 	    if (hsl.y == 0.0)
 		    rgb = vec3(hsl.z); // Luminance
 	    else
 	    {
 		    float f2;
-		    
+		
 		    if (hsl.z < 0.5)
 			    f2 = hsl.z * (1.0 + hsl.y);
 		    else
 			    f2 = (hsl.z + hsl.y) - (hsl.y * hsl.z);
-			    
+			
 		    float f1 = 2.0 * hsl.z - f2;
-		    
+		
 		    rgb.r = HueToRGB(f1, f2, hsl.x + (1.0/3.0));
 		    rgb.g = HueToRGB(f1, f2, hsl.x);
 		    rgb.b= HueToRGB(f1, f2, hsl.x - (1.0/3.0));
 	    }
-	    
+	
 	    return rgb;
     }
 
