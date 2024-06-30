@@ -23,4 +23,3 @@ function Ball:draw()
     love.graphics.setColor(AS_COLORS['yellow'])
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 end
-

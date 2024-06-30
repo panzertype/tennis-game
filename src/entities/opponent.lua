@@ -20,9 +20,9 @@ function Opponent:update(dt, ball)
     local half_height = self.height / 2
 
     if ball.y > self.y + half_height then
-	self.y = self.y + speed * dt
+        self.y = self.y + speed * dt
     elseif ball.y < self.y + half_height then
-	self.y = self.y - speed * dt
+        self.y = self.y - speed * dt
     end
 end
 
@@ -33,4 +33,3 @@ function Opponent:draw()
     self.sprite.y = self.y
     self.sprite:draw()
 end
-

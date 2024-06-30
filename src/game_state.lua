@@ -13,7 +13,7 @@ end
 
 function GameState:draw()
     for i = 1, #self.states do
-	self.states[i]:draw()
+        self.states[i]:draw()
     end
 end
 

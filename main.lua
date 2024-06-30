@@ -62,7 +62,7 @@ function love.draw()
     love.graphics.setCanvas()
 
     love.graphics.setColor(WHITE);
-    -- When using the default shader anything drawn with this function will be tinted according to the currently selected color. Set it to pure white to preserve the object's original colors. 
+    -- When using the default shader anything drawn with this function will be tinted according to the currently selected color. Set it to pure white to preserve the object's original colors.
     love.graphics.draw(framebuffer)
 end
 
