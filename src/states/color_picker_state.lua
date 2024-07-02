@@ -17,7 +17,7 @@ function ColorPickerState:new(o)
 	o = o or {}
 	local buttons = {
 		Button:new({
-			text = 'Previous',
+			text = 'Prev',
 			font = FONT,
 			on_press = function()
 				o:previous_color()
@@ -36,13 +36,14 @@ function ColorPickerState:new(o)
 		height = RENDER_TARGET_HEIGHT,
 		gap = RENDER_TARGET_HEIGHT / 2,
 		children = buttons,
+		direction = 'horizontal'
 	})
 	self.tennisist_sprite =
 		DrawableSprite:new({
 			graphics = AS_GRAPHICS["tennisist"],
 			rgba = COLORS[self.current_color_index],
-			x = RENDER_TARGET_WIDTH / 2,
-			y = RENDER_TARGET_HEIGHT / 2,
+			x = RENDER_TARGET_WIDTH / 2 - 16,
+			y = RENDER_TARGET_HEIGHT / 2 - 16,
 			scale = 2
 		})
 	self.current_color_index = 1

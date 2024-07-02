@@ -12,7 +12,7 @@ function MainMenuState:new(o)
 			font = FONT,
 			on_press = function()
 				GameState:pop()
-				GameState:push(PlayingState:new())
+				GameState:push(ColorPickerState:new())
 			end,
 		}),
 	}
@@ -21,6 +21,7 @@ function MainMenuState:new(o)
 		height = RENDER_TARGET_HEIGHT,
 		gap = 10,
 		children = buttons,
+		direction = 'vertical'
 	})
 	setmetatable(o, { __index = self })
 	return o
