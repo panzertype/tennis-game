@@ -10,6 +10,7 @@ require("src.engine.drawable_sprite")
 
 require("src.ui.button")
 require("src.ui.stack")
+require("src.ui.text")
 
 require("src.entities.tennisist")
 require("src.entities.opponent")

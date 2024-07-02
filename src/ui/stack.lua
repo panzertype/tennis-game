@@ -2,14 +2,13 @@
 ---@field width number
 ---@field height number
 ---@field gap number
----@field children Button[]
+---@field children any[] any class with "getHeight()" and "getWidth()" methods
 ---@field direction 'horizontal' | 'vertical'
 Stack = {}
 
 ---@param o Stack
 function Stack:new(o)
 	o = o or {}
-	self.direction = 'vertical'
 	setmetatable(o, { __index = self })
 	o:setup()
 	return o
@@ -24,6 +23,8 @@ function Stack:setup()
 	for i = 1, #self.children do
 		local child_width = self.children[i]:getWidth()
 		local child_height = self.children[i]:getHeight()
+		assert(child_height > 0)
+		assert(child_width > 0)
 
 		if self.direction == 'vertical' then
 			total_height = total_height + child_height
@@ -60,6 +61,14 @@ function Stack:setup()
 			x = x + self.children[i]:getWidth() + gap
 		end
 	end
+end
+
+function Stack:getWidth()
+	return self.width
+end
+
+function Stack:getHeight()
+	return self.height
 end
 
 function Stack:update()

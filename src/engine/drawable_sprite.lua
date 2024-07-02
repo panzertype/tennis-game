@@ -21,6 +21,14 @@ function DrawableSprite:new(o)
 	return o
 end
 
+function DrawableSprite:getWidth()
+	return self.graphics:getWidth() * self.scale
+end
+
+function DrawableSprite:getHeight()
+	return self.graphics:getHeight() * self.scale
+end
+
 function DrawableSprite:draw()
 	love.graphics.setColor(WHITE)
 
@@ -38,4 +46,7 @@ function DrawableSprite:draw()
 		self.scale * flip_v
 	)
 	love.graphics.setShader()
+end
+
+function DrawableSprite:update()
 end

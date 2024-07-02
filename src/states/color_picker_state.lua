@@ -1,5 +1,5 @@
 ---@class (exact) ColorPickerState
----@field stack Stack
+---@field entities any[] any class with "draw()" and "update()" methods
 ---@field current_color_index number
 ---@field tennisist_sprite DrawableSprite
 ColorPickerState = {}
@@ -11,42 +11,42 @@ local COLORS = {
 	AS_COLORS['light_green'],
 	AS_COLORS['yellow']
 }
-local FONT = AS_FONTS["small"]
+
+local SELECT_PLAYER_COLOR_TEXT = 'Select player color'
 
 function ColorPickerState:new(o)
 	o = o or {}
-	local buttons = {
+	self.current_color_index = 1
+	self.tennisist_sprite =
+		DrawableSprite:new({
+			graphics = AS_GRAPHICS["tennisist"],
+			rgba = COLORS[self.current_color_index],
+			scale = 4
+		})
+	local color_picker_controls_stack = {
 		Button:new({
 			text = 'Prev',
-			font = FONT,
+			font = AS_FONTS["small"],
 			on_press = function()
 				o:previous_color()
 			end,
 		}),
+		self.tennisist_sprite,
 		Button:new({
 			text = 'Next',
-			font = FONT,
+			font = AS_FONTS["small"],
 			on_press = function()
 				o:next_color()
 			end,
 		}),
 	}
-	self.stack = Stack:new({
+	self.entities = Stack:new({
 		width = RENDER_TARGET_WIDTH,
 		height = RENDER_TARGET_HEIGHT,
-		gap = RENDER_TARGET_HEIGHT / 2,
-		children = buttons,
+		gap = RENDER_TARGET_WIDTH / 4,
+		children = color_picker_controls_stack,
 		direction = 'horizontal'
 	})
-	self.tennisist_sprite =
-		DrawableSprite:new({
-			graphics = AS_GRAPHICS["tennisist"],
-			rgba = COLORS[self.current_color_index],
-			x = RENDER_TARGET_WIDTH / 2 - 16,
-			y = RENDER_TARGET_HEIGHT / 2 - 16,
-			scale = 2
-		})
-	self.current_color_index = 1
 	setmetatable(o, { __index = self })
 	return o
 end
@@ -68,10 +68,17 @@ function ColorPickerState:next_color()
 end
 
 function ColorPickerState:draw()
-	self.stack:draw()
-	self.tennisist_sprite:draw()
+	self.entities:draw()
+
+	love.graphics.setColor(AS_COLORS['white'])
+	love.graphics.setFont(AS_FONTS['medium'])
+	love.graphics.print(
+		SELECT_PLAYER_COLOR_TEXT,
+		RENDER_TARGET_WIDTH / 2 - love.graphics.getFont():getWidth(SELECT_PLAYER_COLOR_TEXT) / 2,
+		love.graphics.getFont():getHeight() / 2
+	)
 end
 
 function ColorPickerState:update()
-	self.stack:update()
+	self.entities:update()
 end
