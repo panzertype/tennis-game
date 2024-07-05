@@ -9,6 +9,7 @@ UI_BUTTON_DEFAULT_PADDING = 8
 UI_START_BUTTON_TEXT = "Start"
 UI_PAUSE_OVERLAY_TEXT = "-- PAUSED --"
 UI_SELECT_PLAYER_COLOR_TEXT = 'Select player color'
+UI_SELECT_OPPONENT_COLOR_TEXT = 'Select opponent color'
 
 WHITE = { 1, 1, 1, 1 }
 BLACK = { 0, 0, 0, 1 }

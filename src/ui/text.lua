@@ -1,4 +1,4 @@
----@class Text
+---@class Text: Entity, Dimensions
 ---@field text string
 ---@field font love.Font
 ---@field x number

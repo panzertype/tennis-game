@@ -1,4 +1,4 @@
----@class (exact) PauseState
+---@class (exact) PauseState: Entity
 PauseState = {}
 
 function PauseState:new(o)

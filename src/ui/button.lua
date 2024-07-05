@@ -16,7 +16,7 @@ function Button:new(o)
 	self.on_press = function() end
 	self.hovered = false
 	self.font = font
-	self._was_pressed = false
+	self._was_pressed = true
 	setmetatable(o, { __index = self })
 	return o
 end

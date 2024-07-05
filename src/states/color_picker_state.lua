@@ -1,24 +1,20 @@
----@class (exact) ColorPickerState
----@field ui Stack
----@field current_color_index number
----@field tennisist_sprite DrawableSprite
+---@class (exact) ColorPickerState: Entity
+---@field private colors number[][]
+---@field private title string
+---@field private ui Stack
+---@field private current_color_index number
+---@field private tennisist_sprite DrawableSprite
+---@field private pick_button Button
 ColorPickerState = {}
-
-local COLORS = {
-	AS_COLORS['blue'],
-	AS_COLORS['red'],
-	AS_COLORS['green'],
-	AS_COLORS['light_green'],
-	AS_COLORS['yellow']
-}
 
 function ColorPickerState:new(o)
 	o = o or {}
+	assert(#o.colors > 1)
 	self.current_color_index = 1
 	self.tennisist_sprite =
 		DrawableSprite:new({
 			graphics = AS_GRAPHICS["tennisist"],
-			rgba = COLORS[self.current_color_index],
+			rgba = o.colors[self.current_color_index],
 			scale = 4
 		})
 	local color_picker_controls_stack = {
@@ -45,6 +41,16 @@ function ColorPickerState:new(o)
 		children = color_picker_controls_stack,
 		direction = 'horizontal'
 	})
+	self.pick_button =
+		Button:new({
+			text = 'Next',
+			font = AS_FONTS["small"],
+			on_press = function()
+				o:on_pick(o.colors[o.current_color_index])
+			end,
+			x = RENDER_TARGET_WIDTH / 2,
+			y = RENDER_TARGET_HEIGHT - 20
+		})
 	setmetatable(o, { __index = self })
 	return o
 end
@@ -52,17 +58,20 @@ end
 function ColorPickerState:previous_color()
 	self.current_color_index = self.current_color_index - 1
 	if self.current_color_index == 0 then
-		self.current_color_index = #COLORS
+		self.current_color_index = #self.colors
 	end
-	self.tennisist_sprite.rgba = COLORS[self.current_color_index]
+	self.tennisist_sprite.rgba = self.colors[self.current_color_index]
 end
 
 function ColorPickerState:next_color()
 	self.current_color_index = self.current_color_index + 1
-	if self.current_color_index > #COLORS then
+	if self.current_color_index > #self.colors then
 		self.current_color_index = 1
 	end
-	self.tennisist_sprite.rgba = COLORS[self.current_color_index]
+	self.tennisist_sprite.rgba = self.colors[self.current_color_index]
+end
+
+function ColorPickerState:on_pick()
 end
 
 function ColorPickerState:draw()
@@ -71,12 +80,15 @@ function ColorPickerState:draw()
 	love.graphics.setColor(AS_COLORS['white'])
 	love.graphics.setFont(AS_FONTS['medium'])
 	love.graphics.print(
-		UI_SELECT_PLAYER_COLOR_TEXT,
-		RENDER_TARGET_WIDTH / 2 - love.graphics.getFont():getWidth(UI_SELECT_PLAYER_COLOR_TEXT) / 2,
+		self.title,
+		RENDER_TARGET_WIDTH / 2 - love.graphics.getFont():getWidth(self.title) / 2,
 		love.graphics.getFont():getHeight() / 2
 	)
+
+	self.pick_button:draw()
 end
 
 function ColorPickerState:update()
 	self.ui:update()
+	self.pick_button:update()
 end

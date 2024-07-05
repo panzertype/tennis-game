@@ -1,5 +1,5 @@
----@class (exact) MainMenuState
----@field stack Stack
+---@class (exact) MainMenuState: Entity
+---@field private stack Stack
 MainMenuState = {}
 
 local FONT = AS_FONTS["small"]
@@ -12,7 +12,7 @@ function MainMenuState:new(o)
 			font = FONT,
 			on_press = function()
 				GameState:pop()
-				GameState:push(ColorPickerState:new())
+				GameState:push(CustomizeTennisistsState:new())
 			end,
 		}),
 	}

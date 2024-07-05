@@ -1,7 +1,7 @@
----@class (exact) PlayingState
----@field player Tennisist
----@field opponent Opponent
----@field ball Ball
+---@class (exact) PlayingState: Entity
+---@field private player Tennisist
+---@field private opponent Opponent
+---@field private ball Ball
 PlayingState = {}
 
 local PLAYER_SPEED = 100

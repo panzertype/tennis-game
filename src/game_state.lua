@@ -1,5 +1,5 @@
 ---@class (exact) GameState
----@field states any
+---@field states Entity[]
 GameState = {}
 
 function GameState:new(states)
