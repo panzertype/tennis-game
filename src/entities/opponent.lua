@@ -1,4 +1,4 @@
----@class (exact) Opponent
+---@class (exact) Opponent: Entity
 ---@field x number
 ---@field y number
 ---@field width number

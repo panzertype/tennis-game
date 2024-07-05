@@ -1,4 +1,4 @@
----@class (exact) DrawableSprite
+---@class (exact) DrawableSprite: Entity, Dimensions
 ---@field x number
 ---@field y number
 ---@field scale number
@@ -6,17 +6,16 @@
 ---@field flip_v boolean
 ---@field graphics love.Image
 ---@field rgba number[]
-DrawableSprite = {
-	x = 0,
-	y = 0,
-	scale = 1,
-	flip_h = false,
-	flip_v = false,
-	rgba = { 0, 0, 0, 0 },
-}
+DrawableSprite = {}
 
 function DrawableSprite:new(o)
 	o = o or {}
+	self.x = 0
+	self.y = 0
+	self.scale = 1
+	self.flip_h = false
+	self.flip_v = false
+	self.rgba = { 0, 0, 0, 0 }
 	setmetatable(o, { __index = self })
 	return o
 end

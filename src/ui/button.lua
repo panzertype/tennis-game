@@ -1,11 +1,11 @@
----@class Button
+---@class Button: Entity, Dimensions
 ---@field hovered boolean
 ---@field on_press function
 ---@field text string
 ---@field font love.Font
 ---@field x number
 ---@field y number
----@field _was_pressed boolean
+---@field private _was_pressed boolean
 Button = {}
 
 local font = AS_FONTS['small']

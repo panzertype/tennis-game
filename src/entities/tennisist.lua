@@ -1,4 +1,4 @@
----@class (exact) Tennisist
+---@class (exact) Tennisist: Entity
 ---@field x number
 ---@field y number
 ---@field width number

@@ -1,5 +1,8 @@
 require("lib.strict")
 
+require("src.interfaces.entity")
+require("src.interfaces.dimensions")
+
 require("src.constants")
 
 require("src.utils")

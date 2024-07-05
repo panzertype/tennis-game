@@ -1,5 +1,5 @@
 ---@class (exact) ColorPickerState
----@field entities any[] any class with "draw()" and "update()" methods
+---@field ui Stack
 ---@field current_color_index number
 ---@field tennisist_sprite DrawableSprite
 ColorPickerState = {}
@@ -11,8 +11,6 @@ local COLORS = {
 	AS_COLORS['light_green'],
 	AS_COLORS['yellow']
 }
-
-local SELECT_PLAYER_COLOR_TEXT = 'Select player color'
 
 function ColorPickerState:new(o)
 	o = o or {}
@@ -40,7 +38,7 @@ function ColorPickerState:new(o)
 			end,
 		}),
 	}
-	self.entities = Stack:new({
+	self.ui = Stack:new({
 		width = RENDER_TARGET_WIDTH,
 		height = RENDER_TARGET_HEIGHT,
 		gap = RENDER_TARGET_WIDTH / 4,
@@ -68,17 +66,17 @@ function ColorPickerState:next_color()
 end
 
 function ColorPickerState:draw()
-	self.entities:draw()
+	self.ui:draw()
 
 	love.graphics.setColor(AS_COLORS['white'])
 	love.graphics.setFont(AS_FONTS['medium'])
 	love.graphics.print(
-		SELECT_PLAYER_COLOR_TEXT,
-		RENDER_TARGET_WIDTH / 2 - love.graphics.getFont():getWidth(SELECT_PLAYER_COLOR_TEXT) / 2,
+		UI_SELECT_PLAYER_COLOR_TEXT,
+		RENDER_TARGET_WIDTH / 2 - love.graphics.getFont():getWidth(UI_SELECT_PLAYER_COLOR_TEXT) / 2,
 		love.graphics.getFont():getHeight() / 2
 	)
 end
 
 function ColorPickerState:update()
-	self.entities:update()
+	self.ui:update()
 end

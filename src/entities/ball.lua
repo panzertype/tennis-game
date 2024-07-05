@@ -1,4 +1,4 @@
----@class (exact) Ball
+---@class (exact) Ball: Entity
 ---@field x number
 ---@field y number
 ---@field dx number

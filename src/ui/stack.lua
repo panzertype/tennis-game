@@ -1,8 +1,10 @@
----@class Stack
+---@class StackChildren: Entity, Dimensions
+
+---@class Stack: Entity, Dimensions
 ---@field width number
 ---@field height number
 ---@field gap number
----@field children any[] any class with "getHeight()" and "getWidth()" methods
+---@field children StackChildren[]
 ---@field direction 'horizontal' | 'vertical'
 Stack = {}
 
