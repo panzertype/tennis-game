@@ -7,7 +7,7 @@ function Entity:new()
     return instance
 end
 
-function Entity:update()
+function Entity:update(...)
     assert(false, "Entity update method not implemented")
 end
 

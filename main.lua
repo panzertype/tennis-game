@@ -21,9 +21,13 @@ function love.load()
 	music:setLooping(true)
 	music:play()
 	love.keyboard.keys_pressed = {}
+	love.mouse.release_position = {
+		x = -1,
+		y = -1
+	}
 	love.mouse.position = {
-		x = 0,
-		y = 0
+		x = -1,
+		y = -1
 	}
 end
 
@@ -31,6 +35,10 @@ function love.update(dt)
 	GAME_STATE:update(dt)
 
 	love.keyboard.keys_pressed = {}
+	love.mouse.release_position = {
+		x = -1,
+		y = -1
+	}
 	local mouse_x, mouse_y = love.mouse.getPosition()
 	love.mouse.position = {
 		x = (mouse_x - render_translate_x) / render_scale,
@@ -68,6 +76,10 @@ end
 
 function love.keypressed(key)
 	love.keyboard.keys_pressed[key] = true
+end
+
+function love.mousereleased()
+	love.mouse.release_position = love.mouse.position
 end
 
 function love.keyboard.wasPressed(key)

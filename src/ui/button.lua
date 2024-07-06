@@ -5,7 +5,6 @@
 ---@field font love.Font
 ---@field x number
 ---@field y number
----@field private _was_pressed boolean
 Button = {}
 
 local font = AS_FONTS['small']
@@ -16,7 +15,6 @@ function Button:new(o)
 	self.on_press = function() end
 	self.hovered = false
 	self.font = font
-	self._was_pressed = true
 	setmetatable(o, { __index = self })
 	return o
 end
@@ -41,30 +39,16 @@ function Button:draw()
 end
 
 function Button:update()
+	local mouse_release_x, mouse_release_y = love.mouse.release_position.x, love.mouse.release_position.y
+	local is_clicked = Collides(self.x, self.y, self:getWidth(), self:getHeight(), mouse_release_x, mouse_release_y, 1, 1)
+
 	local mouse_x, mouse_y = love.mouse.position.x, love.mouse.position.y
-	-- print(mouse_x, mouse_y, self.x, self.y)
 	local is_cursor_over_button = Collides(self.x, self.y, self:getWidth(), self:getHeight(), mouse_x, mouse_y, 1, 1)
 	self.hovered = is_cursor_over_button
 
-	if is_cursor_over_button and self:wasPressed() then
+	if is_clicked then
 		self.on_press()
 	end
-end
-
----@private
-function Button:wasPressed()
-	local is_pressed = love.mouse.isDown(1)
-
-	if is_pressed and not self._was_pressed then
-		self._was_pressed = true
-		return true
-	end
-
-	if not is_pressed then
-		self._was_pressed = false
-	end
-
-	return false
 end
 
 function Button:getHeight()
