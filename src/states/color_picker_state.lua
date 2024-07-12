@@ -1,5 +1,5 @@
 ---@class (exact) ColorPickerState: Entity
----@field private colors number[][]
+---@field private colors RGBA[]
 ---@field private title string
 ---@field private ui Stack
 ---@field private current_color_index number
@@ -19,7 +19,7 @@ function ColorPickerState:new(o)
 		})
 	local color_picker_controls_stack = {
 		Button:new({
-			text = 'Prev',
+			text = UI_PREV_BUTTON_TEXT,
 			font = AS_FONTS["small"],
 			on_press = function()
 				o:previous_color()
@@ -27,7 +27,7 @@ function ColorPickerState:new(o)
 		}),
 		self.tennisist_sprite,
 		Button:new({
-			text = 'Next',
+			text = UI_NEXT_BUTTON_TEXT,
 			font = AS_FONTS["small"],
 			on_press = function()
 				o:next_color()
@@ -41,15 +41,20 @@ function ColorPickerState:new(o)
 		children = color_picker_controls_stack,
 		direction = 'horizontal'
 	})
+	local pick_button =
+		Button:new({
+			text = UI_CONFIRM_BUTTON_TEXT,
+			font = AS_FONTS["small"],
+		})
 	self.pick_button =
 		Button:new({
-			text = 'Next',
-			font = AS_FONTS["small"],
+			text = pick_button.text,
+			font = pick_button.font,
 			on_press = function()
-				o:on_pick(o.colors[o.current_color_index])
+				o.on_pick(o.colors[o.current_color_index], o.current_color_index)
 			end,
-			x = RENDER_TARGET_WIDTH / 2,
-			y = RENDER_TARGET_HEIGHT - 20
+			x = (RENDER_TARGET_WIDTH / 2) - (pick_button:getWidth() / 2),
+			y = RENDER_TARGET_HEIGHT - pick_button:getHeight() - UI_BUTTON_DEFAULT_PADDING
 		})
 	setmetatable(o, { __index = self })
 	return o
@@ -69,9 +74,6 @@ function ColorPickerState:next_color()
 		self.current_color_index = 1
 	end
 	self.tennisist_sprite.rgba = self.colors[self.current_color_index]
-end
-
-function ColorPickerState:on_pick()
 end
 
 function ColorPickerState:draw()

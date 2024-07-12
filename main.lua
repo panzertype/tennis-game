@@ -11,8 +11,6 @@ local render_translate_y = 0
 
 function love.load()
 	math.randomseed(os.time())
-	love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, { resizable = true })
-	love.window.setTitle(WINDOW_TITLE)
 	love.graphics.setBackgroundColor(BLACK)
 	framebuffer:setFilter('nearest', 'nearest')
 	love.resize(WINDOW_WIDTH, WINDOW_HEIGHT)

@@ -1,4 +1,6 @@
 ---@class (exact) PlayingState: Entity
+---@field private player_color RGBA
+---@field private opponent_color RGBA
 ---@field private player Tennisist
 ---@field private opponent Opponent
 ---@field private ball Ball
@@ -29,7 +31,7 @@ function PlayingState:new(o)
 		height = PLAYERS_HEIGHT,
 		sprite = DrawableSprite:new({
 			graphics = AS_GRAPHICS["tennisist"],
-			rgba = AS_COLORS["red"],
+			rgba = GAME_CONFIG["player_color"],
 			scale = 2
 		})
 	}
@@ -40,7 +42,7 @@ function PlayingState:new(o)
 		height = PLAYERS_HEIGHT,
 		sprite = DrawableSprite:new({
 			graphics = AS_GRAPHICS["tennisist"],
-			rgba = AS_COLORS["blue"],
+			rgba = GAME_CONFIG["opponent_color"],
 			flip_h = true,
 			scale = 2
 		})

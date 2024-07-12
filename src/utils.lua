@@ -22,19 +22,20 @@ function EntitiesCollide(a, b)
 end
 
 ---@param hex string
----@return number[]
-function HexToColor(hex, value)
+---@param alpha? string
+---@return RGBA 
+function HexToColor(hex, alpha)
 	return {
 		tonumber(string.sub(hex, 2, 3), 16) / 256,
 		tonumber(string.sub(hex, 4, 5), 16) / 256,
 		tonumber(string.sub(hex, 6, 7), 16) / 256,
-		value or 1
+		alpha or 1
 	}
 end
 
----@param rgb number[]
----@param a number
----@return number[]
-function Rgba(rgb, a)
-	return { rgb[1], rgb[2], rgb[3], a }
+---@param rgb RGB
+---@param alpha number
+---@return RGBA[]
+function Rgba(rgb, alpha)
+	return { rgb[1], rgb[2], rgb[3], alpha }
 end

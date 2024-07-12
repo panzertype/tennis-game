@@ -5,6 +5,7 @@ require("src.constants")
 require("src.utils")
 
 require("src.assets")
+require("src.game_config")
 
 require("src.engine.drawable_sprite")
 

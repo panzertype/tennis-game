@@ -3,7 +3,7 @@
 ---@field font love.Font
 ---@field x number
 ---@field y number
----@field color number[] 
+---@field color RGBA 
 Text = {}
 
 ---@param o Text

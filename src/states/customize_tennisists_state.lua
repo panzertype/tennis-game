@@ -1,8 +1,6 @@
 ---@class (exact) CustomizeTennisistsState: Entity
----@field private colors number[][]
+---@field private colors RGBA[]
 ---@field private state Entity
----@field private player_color number[]
----@field private opponent_color number[]
 CustomizeTennisistsState = {}
 
 function CustomizeTennisistsState:new(o)
@@ -17,13 +15,14 @@ function CustomizeTennisistsState:new(o)
 	self.state = ColorPickerState:new({
 		colors = self.colors,
 		title = UI_SELECT_PLAYER_COLOR_TEXT,
-		on_pick = function(player_color)
-			self.player_color = player_color
+		on_pick = function(player_color, color_index)
+			GAME_CONFIG['player_color'] = player_color
+			table.remove(self.colors, color_index)
 			self.state = ColorPickerState:new({
 				colors = self.colors,
 				title = UI_SELECT_OPPONENT_COLOR_TEXT,
 				on_pick = function(opponent_color)
-					self.opponent_color = opponent_color
+					GAME_CONFIG['opponent_color'] = opponent_color
 					GAME_STATE:pop()
 					GAME_STATE:push(PlayingState:new())
 				end

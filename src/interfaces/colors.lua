@@ -1,0 +1,2 @@
+---@alias RGB [number, number, number]
+---@alias RGBA [number, number, number, number]

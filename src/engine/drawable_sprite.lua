@@ -5,7 +5,7 @@
 ---@field flip_h boolean
 ---@field flip_v boolean
 ---@field graphics love.Image
----@field rgba number[]
+---@field rgba RGBA
 DrawableSprite = {}
 
 function DrawableSprite:new(o)
