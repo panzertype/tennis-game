@@ -1,3 +1,4 @@
+JSON = require("lib.json")
 require("lib.strict")
 
 require("src.constants")

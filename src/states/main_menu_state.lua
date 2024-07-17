@@ -12,7 +12,27 @@ function MainMenuState:new(o)
 			font = FONT,
 			on_press = function()
 				GameState:pop()
-				GameState:push(CustomizeTennisistsState:new())
+				if GAME_CONFIG['player_color'] and GAME_CONFIG['opponent_color'] then
+					GameState:push(PlayingState:new())
+				else
+					GameState:push(CustomizeTennisistsState:new({
+						on_customize_end = function ()
+							GameState:push(PlayingState:new())
+						end
+					}))
+				end
+			end,
+		}),
+		Button:new({
+			text = UI_CUSTOMIZE_BUTTON_TEXT,
+			font = FONT,
+			on_press = function()
+				GameState:pop()
+				GameState:push(CustomizeTennisistsState:new({
+					on_customize_end = function()
+						GameState:push(MainMenuState:new())
+					end
+				}))
 			end,
 		}),
 		Button:new({

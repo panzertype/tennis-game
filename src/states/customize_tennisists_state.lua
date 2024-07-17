@@ -5,6 +5,7 @@ CustomizeTennisistsState = {}
 
 function CustomizeTennisistsState:new(o)
     o = o or {}
+	assert(o.on_customize_end)
     self.colors = {
         AS_COLORS['blue'],
         AS_COLORS['red'],
@@ -23,8 +24,9 @@ function CustomizeTennisistsState:new(o)
 				title = UI_SELECT_OPPONENT_COLOR_TEXT,
 				on_pick = function(opponent_color)
 					GAME_CONFIG['opponent_color'] = opponent_color
+					SAVE_CONFIG()
 					GAME_STATE:pop()
-					GAME_STATE:push(PlayingState:new())
+					o.on_customize_end()
 				end
 			})
 		end

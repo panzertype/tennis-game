@@ -10,6 +10,7 @@ local render_translate_x = 0
 local render_translate_y = 0
 
 function love.load()
+	LOAD_CONFIG()
 	math.randomseed(os.time())
 	love.graphics.setBackgroundColor(BLACK)
 	framebuffer:setFilter('nearest', 'nearest')
