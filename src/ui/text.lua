@@ -6,9 +6,10 @@
 ---@field color RGBA 
 Text = {}
 
----@param o Text
 function Text:new(o)
 	o = o or {}
+	self.x = 0
+	self.y = 0
 	setmetatable(o, { __index = self })
 	return o
 end

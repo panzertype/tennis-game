@@ -4,7 +4,7 @@
 ---@field width number
 ---@field height number
 ---@field gap number
----@field children StackChildren[]
+---@field children (StackChildren | Stack)[]
 ---@field direction 'horizontal' | 'vertical'
 Stack = {}
 

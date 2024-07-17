@@ -20,6 +20,7 @@ require("src.entities.ball")
 
 require("src.states.pause_state")
 require("src.states.main_menu_state")
+require("src.states.settings_state")
 require("src.states.playing_state")
 require("src.states.customize_tennisists_state")
 require("src.states.color_picker_state")

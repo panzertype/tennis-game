@@ -4,7 +4,7 @@
 ---@field private min number
 ---@field private max number
 ---@field private width number
----@field on_press fun(value: number)
+---@field on_change fun(value: number)
 ---@field value number
 ---@field x number
 ---@field y number
@@ -15,6 +15,9 @@ function Range:new(o)
 	assert(o.min)
 	assert(o.max)
 	assert(o.step)
+	assert(o.value)
+	assert(o.value >= o.min and o.value <= o.max)
+	assert(o.value % o.step == 0)
 	o = o or {}
 	self.step_index = 0
 	self.on_press = function() end
@@ -38,7 +41,7 @@ function Range:update()
 		self.value = self.min + (self.step_index * self.step)
 
 		print(self.value)
-		self.on_press(self.value)
+		self.on_change(self.value)
 	end
 end
 
@@ -68,7 +71,7 @@ function Range:draw()
 	love.graphics.rectangle("line", self.x, self.y, self.width, self:getHeight())
 	love.graphics.rectangle(
 		"fill",
-		self.x + (self.step_index * self:get_one_step_width()) - (self:get_cursor_width() / 2) - 1,
+		self.x + ((self.value - self.min) / self.step * self:get_one_step_width()) - (self:get_cursor_width() / 2) - 1,
 		self.y - self:getHeight(),
 		self:get_cursor_width() + 2,
 		self:get_cursor_height()

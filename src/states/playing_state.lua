@@ -122,6 +122,7 @@ end
 ---@private
 function PlayingState:handle_collision()
 	if EntitiesCollide(self.player, self.ball) then
+		AS_AUDIO['racket_hit']:pause()
 		AS_AUDIO['racket_hit']:play()
 		print(self.ball.x, self.ball.y)
 

@@ -14,8 +14,9 @@ function love.load()
 	love.graphics.setBackgroundColor(BLACK)
 	framebuffer:setFilter('nearest', 'nearest')
 	love.resize(WINDOW_WIDTH, WINDOW_HEIGHT)
+	AS_AUDIO['music']:setVolume(GAME_CONFIG['music_volume'])
+	AS_AUDIO['racket_hit']:setVolume(GAME_CONFIG['sfx_volume'])
 	local music = AS_AUDIO['music']
-	music:setVolume(0.1)
 	music:setLooping(true)
 	music:play()
 	love.keyboard.keys_pressed = {}

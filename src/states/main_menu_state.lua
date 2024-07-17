@@ -15,6 +15,21 @@ function MainMenuState:new(o)
 				GameState:push(CustomizeTennisistsState:new())
 			end,
 		}),
+		Button:new({
+			text = UI_SETTINGS_BUTTON_TEXT,
+			font = FONT,
+			on_press = function()
+				GameState:pop()
+				GameState:push(SettingsState:new())
+			end,
+		}),
+		Button:new({
+			text = UI_EXIT_BUTTON_TEXT,
+			font = FONT,
+			on_press = function()
+				love.event.quit(0)
+			end,
+		}),
 	}
 	self.stack = Stack:new({
 		width = RENDER_TARGET_WIDTH,
