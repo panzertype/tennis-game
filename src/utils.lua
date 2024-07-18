@@ -39,3 +39,8 @@ end
 function Rgba(rgb, alpha)
 	return { rgb[1], rgb[2], rgb[3], alpha }
 end
+
+function DrawBackdrop()
+	love.graphics.setColor(Rgba(AS_COLORS["black"], 0.6))
+	love.graphics.rectangle("fill", 0, 0, RENDER_TARGET_WIDTH, RENDER_TARGET_HEIGHT)
+end

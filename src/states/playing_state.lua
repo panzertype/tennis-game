@@ -10,7 +10,10 @@ local PLAYER_SPEED = 100
 local PLAYERS_WIDTH = 26
 local PLAYERS_HEIGHT = 24
 local PLAYERS_PADDING = 16
+
 local PLAYERS_STARTING_Y = RENDER_TARGET_HEIGHT / 2 - PLAYERS_HEIGHT / 2
+local PLAYER_STARTING_X = PLAYERS_PADDING
+local OPPONENT_STARTING_X = RENDER_TARGET_WIDTH - PLAYERS_WIDTH - PLAYERS_PADDING
 
 local BALL_SIZE = 5
 local BALL_SPEED_MULTIPLIER = 1.03
@@ -25,7 +28,7 @@ function PlayingState:new(o)
 	o = o or {}
 
 	self.player = Tennisist:new {
-		x = PLAYERS_PADDING,
+		x = PLAYER_STARTING_X,
 		y = PLAYERS_STARTING_Y,
 		width = PLAYERS_WIDTH,
 		height = PLAYERS_HEIGHT,
@@ -36,7 +39,7 @@ function PlayingState:new(o)
 		})
 	}
 	self.opponent = Opponent:new {
-		x = RENDER_TARGET_WIDTH - PLAYERS_WIDTH - PLAYERS_PADDING,
+		x = OPPONENT_STARTING_X,
 		y = PLAYERS_STARTING_Y,
 		width = PLAYERS_WIDTH,
 		height = PLAYERS_HEIGHT,
@@ -166,16 +169,20 @@ function PlayingState:handle_collision()
 	local player_scored = self.ball.x + BALL_SIZE > RENDER_TARGET_WIDTH
 
 	if opponent_scored or player_scored then
-		self.ball.x = RENDER_TARGET_WIDTH / 2 - BALL_SIZE
+		self.ball.x = player_scored and PLAYER_STARTING_X + PLAYERS_WIDTH - 1 or OPPONENT_STARTING_X - BALL_SIZE
 		self.ball.y = RENDER_TARGET_HEIGHT / 2 - BALL_SIZE
 		self.ball.dy = math.random(-50, 50)
 		local dx = math.random(140, 200)
-		self.ball.dx = math.random() % 2 and dx or -dx
+		self.ball.dx = player_scored and dx or -dx
 
 		if opponent_scored then
 			opponent_score = opponent_score + 1
 		else
 			player_score = player_score + 1
 		end
+
+		self.player.y = PLAYERS_STARTING_Y
+		self.opponent.y = PLAYERS_STARTING_Y
+		GAME_STATE:push(CountdownState:new({ count_from = 3, count_till = 0 }))
 	end
 end

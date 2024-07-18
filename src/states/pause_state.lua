@@ -14,8 +14,7 @@ local PAUSE_TEXT_WIDTH = FONT:getWidth(PAUSE_TEXT)
 local PAUSE_TEXT_PADDING = FONT:getHeight()
 
 function PauseState:draw()
-	love.graphics.setColor(Rgba(AS_COLORS["black"], 0.6))
-	love.graphics.rectangle("fill", 0, 0, RENDER_TARGET_WIDTH, RENDER_TARGET_HEIGHT)
+	DrawBackdrop()
 
 	love.graphics.setColor(FONT_COLOR)
 	love.graphics.setFont(FONT)
