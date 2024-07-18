@@ -51,10 +51,11 @@ function Stack:setup()
 	assert(total_width <= self.width)
 
 	local y = (self.height / 2) - (total_height / 2)
-	local x = (self.width / 2) - (total_width / 2)
+	local x = self.width / 2
 
 	for i = 1, #self.children do
-		self.children[i].x = x
+		self.children[i].x = self.direction == 'horizontal' and x - (total_width / 2) or
+			x - (self.children[i]:getWidth() / 2)
 		self.children[i].y = y
 		local gap = i ~= #self.children and self.gap or 0
 		if self.direction == 'vertical' then

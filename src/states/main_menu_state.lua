@@ -14,10 +14,12 @@ function MainMenuState:new(o)
 				GameState:pop()
 				if GAME_CONFIG['player_color'] and GAME_CONFIG['opponent_color'] then
 					GameState:push(PlayingState:new())
+					GameState:push(CountdownState:new({ count_from = 3, count_till = 0 }))
 				else
 					GameState:push(CustomizeTennisistsState:new({
 						on_customize_end = function ()
 							GameState:push(PlayingState:new())
+							GameState:push(CountdownState:new({ count_from = 3, count_till = 0 }))
 						end
 					}))
 				end
