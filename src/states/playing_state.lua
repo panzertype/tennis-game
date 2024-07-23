@@ -55,8 +55,8 @@ function PlayingState:new(o)
 		dx = 0,
 		dy = 0
 	}
-	self.ball.dy = math.random(-50, 50)
-	local dx = math.random(140, 200)
+	self.ball.dy = self:get_ball_random_dy()
+	local dx = self:get_ball_random_dx()
 	self.ball.dx = math.random() % 2 and dx or -dx
 
 	setmetatable(o, { __index = self })
@@ -120,36 +120,46 @@ function PlayingState:draw_score()
 end
 
 ---@private
+function PlayingState:get_ball_random_dy()
+	return math.random(BallData.min_dy, BallData.max_dy)
+end
+
+---@private
+function PlayingState:get_ball_random_dx()
+	return math.random(BallData.min_dx, BallData.max_dx)
+end
+
+---@private
+function PlayingState:bounce_ball_y()
+	if self.ball.dy < 0 then
+		self.ball.dy = -self:get_ball_random_dy()
+	else
+		self.ball.dy = self:get_ball_random_dy()
+	end
+end
+
+---@private
 function PlayingState:handle_collision()
 	if EntitiesCollide(self.player, self.ball) then
-		AS_AUDIO['racket_hit']:pause()
+		AS_AUDIO['racket_hit']:stop()
 		AS_AUDIO['racket_hit']:play()
-		print(self.ball.x, self.ball.y)
+		print("Player hit: ", self.ball.x, self.ball.y)
 
 		self.ball.dx = -self.ball.dx * BallData.speed_multiplier
 		self.ball.x = self.player.x + self.player.width
 
-		-- keep velocity going in the same direction, but randomize it
-		if self.ball.dy < 0 then
-			self.ball.dy = -math.random(10, 150)
-		else
-			self.ball.dy = math.random(10, 150)
-		end
+		self:bounce_ball_y()
 	end
 
 	if EntitiesCollide(self.opponent, self.ball) then
+		AS_AUDIO['racket_hit']:stop()
 		AS_AUDIO['racket_hit']:play()
-		print(self.ball.x, self.ball.y)
+		print("Opponent hit: ", self.ball.x, self.ball.y)
 
 		self.ball.dx = -self.ball.dx * BallData.speed_multiplier
 		self.ball.x = self.opponent.x - BallData.hitbox_size
 
-		-- keep velocity going in the same direction, but randomize it
-		if self.ball.dy < 0 then
-			self.ball.dy = -math.random(10, 150)
-		else
-			self.ball.dy = math.random(10, 150)
-		end
+		self:bounce_ball_y()
 	end
 
 	if self.ball.y <= 0 then
@@ -168,8 +178,8 @@ function PlayingState:handle_collision()
 	if opponent_scored or player_scored then
 		self.ball.x = player_scored and player_starting_x + self.player.width - 1 or opponent_starting_x - BallData.hitbox_size
 		self.ball.y = RENDER_TARGET_HEIGHT / 2 - BallData.hitbox_size
-		self.ball.dy = math.random(-50, 50)
-		local dx = math.random(140, 200)
+		self.ball.dy = self:get_ball_random_dy()
+		local dx = self:get_ball_random_dx()
 		self.ball.dx = player_scored and dx or -dx
 
 		if opponent_scored then
