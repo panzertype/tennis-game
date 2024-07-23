@@ -6,21 +6,17 @@
 ---@field private ball Ball
 PlayingState = {}
 
-local PLAYER_SPEED = 100
-local PLAYERS_WIDTH = 26
-local PLAYERS_HEIGHT = 24
-local PLAYERS_PADDING = 16
+local players_padding = 16
 
-local PLAYERS_STARTING_Y = RENDER_TARGET_HEIGHT / 2 - PLAYERS_HEIGHT / 2
-local PLAYER_STARTING_X = PLAYERS_PADDING
-local OPPONENT_STARTING_X = RENDER_TARGET_WIDTH - PLAYERS_WIDTH - PLAYERS_PADDING
+local player_starting_y = RENDER_TARGET_HEIGHT / 2 - PlayerData.hitbox_height / 2
+local opponent_starting_y = RENDER_TARGET_HEIGHT / 2 - OpponentData.hitbox_height / 2
 
-local BALL_SIZE = 5
-local BALL_SPEED_MULTIPLIER = 1.03
+local player_starting_x = players_padding
+local opponent_starting_x = RENDER_TARGET_WIDTH - OpponentData.hitbox_width - players_padding
 
-local SCORE_PADDING = 50
+local score_padding = 50
 
-local FONT = AS_FONTS['medium']
+local font = AS_FONTS['medium']
 local player_score = 0
 local opponent_score = 0
 
@@ -28,10 +24,10 @@ function PlayingState:new(o)
 	o = o or {}
 
 	self.player = Tennisist:new {
-		x = PLAYER_STARTING_X,
-		y = PLAYERS_STARTING_Y,
-		width = PLAYERS_WIDTH,
-		height = PLAYERS_HEIGHT,
+		x = player_starting_x,
+		y = player_starting_y,
+		width = PlayerData.hitbox_width,
+		height = PlayerData.hitbox_height,
 		sprite = DrawableSprite:new({
 			graphics = AS_GRAPHICS["tennisist"],
 			rgba = GAME_CONFIG["player_color"],
@@ -39,11 +35,11 @@ function PlayingState:new(o)
 		})
 	}
 	self.opponent = Opponent:new {
-		x = OPPONENT_STARTING_X,
-		y = PLAYERS_STARTING_Y,
-		speed = 100,
-		width = PLAYERS_WIDTH,
-		height = PLAYERS_HEIGHT,
+		x = opponent_starting_x,
+		y = opponent_starting_y,
+		speed = OpponentData.base_speed,
+		width = OpponentData.hitbox_width,
+		height = OpponentData.hitbox_height,
 		sprite = DrawableSprite:new({
 			graphics = AS_GRAPHICS["tennisist"],
 			rgba = GAME_CONFIG["opponent_color"],
@@ -52,10 +48,10 @@ function PlayingState:new(o)
 		})
 	}
 	self.ball = Ball:new {
-		x = RENDER_TARGET_WIDTH / 2 - BALL_SIZE,
-		y = RENDER_TARGET_HEIGHT / 2 - BALL_SIZE,
-		width = BALL_SIZE,
-		height = BALL_SIZE,
+		x = RENDER_TARGET_WIDTH / 2 - BallData.hitbox_size,
+		y = RENDER_TARGET_HEIGHT / 2 - BallData.hitbox_size,
+		width = BallData.hitbox_size,
+		height = BallData.hitbox_size,
 		dx = 0,
 		dy = 0
 	}
@@ -82,13 +78,13 @@ end
 ---@private
 function PlayingState:update_player(dt)
 	if love.keyboard.isDown("up") then
-		local next_player_position_y = self.player.y - PLAYER_SPEED * dt
+		local next_player_position_y = self.player.y - PlayerData.base_speed * dt
 		if next_player_position_y >= 0 then
 			self.player.y = next_player_position_y
 		end
 	end
 	if love.keyboard.isDown("down") then
-		local next_player_position_y = self.player.y + PLAYER_SPEED * dt
+		local next_player_position_y = self.player.y + PlayerData.base_speed * dt
 		if next_player_position_y + self.player.height <= RENDER_TARGET_HEIGHT then
 			self.player.y = next_player_position_y
 		end
@@ -109,16 +105,16 @@ function PlayingState:draw_score()
 	love.graphics.setColor(AS_COLORS['white'])
 	local player_score_text = tostring(player_score)
 	local opponent_score_text = tostring(opponent_score)
-	local half_font_height = FONT:getHeight() / 2
-	love.graphics.setFont(FONT)
+	local half_font_height = font:getHeight() / 2
+	love.graphics.setFont(font)
 	love.graphics.print(
 		player_score_text,
-		RENDER_TARGET_WIDTH / 2 - SCORE_PADDING - FONT:getWidth(player_score_text),
+		RENDER_TARGET_WIDTH / 2 - score_padding - font:getWidth(player_score_text),
 		RENDER_TARGET_HEIGHT / 2 - half_font_height
 	)
 	love.graphics.print(
 		opponent_score_text,
-		RENDER_TARGET_WIDTH / 2 + SCORE_PADDING,
+		RENDER_TARGET_WIDTH / 2 + score_padding,
 		RENDER_TARGET_HEIGHT / 2 - half_font_height
 	)
 end
@@ -130,8 +126,8 @@ function PlayingState:handle_collision()
 		AS_AUDIO['racket_hit']:play()
 		print(self.ball.x, self.ball.y)
 
-		self.ball.dx = -self.ball.dx * BALL_SPEED_MULTIPLIER
-		self.ball.x = self.player.x + PLAYERS_WIDTH
+		self.ball.dx = -self.ball.dx * BallData.speed_multiplier
+		self.ball.x = self.player.x + self.player.width
 
 		-- keep velocity going in the same direction, but randomize it
 		if self.ball.dy < 0 then
@@ -145,8 +141,8 @@ function PlayingState:handle_collision()
 		AS_AUDIO['racket_hit']:play()
 		print(self.ball.x, self.ball.y)
 
-		self.ball.dx = -self.ball.dx * BALL_SPEED_MULTIPLIER
-		self.ball.x = self.opponent.x - BALL_SIZE
+		self.ball.dx = -self.ball.dx * BallData.speed_multiplier
+		self.ball.x = self.opponent.x - BallData.hitbox_size
 
 		-- keep velocity going in the same direction, but randomize it
 		if self.ball.dy < 0 then
@@ -161,17 +157,17 @@ function PlayingState:handle_collision()
 		self.ball.dy = -self.ball.dy
 	end
 
-	if self.ball.y >= RENDER_TARGET_HEIGHT - BALL_SIZE then
-		self.ball.y = RENDER_TARGET_HEIGHT - BALL_SIZE
+	if self.ball.y >= RENDER_TARGET_HEIGHT - BallData.hitbox_size then
+		self.ball.y = RENDER_TARGET_HEIGHT - BallData.hitbox_size
 		self.ball.dy = -self.ball.dy
 	end
 
 	local opponent_scored = self.ball.x < 0
-	local player_scored = self.ball.x + BALL_SIZE > RENDER_TARGET_WIDTH
+	local player_scored = self.ball.x + BallData.hitbox_size > RENDER_TARGET_WIDTH
 
 	if opponent_scored or player_scored then
-		self.ball.x = player_scored and PLAYER_STARTING_X + PLAYERS_WIDTH - 1 or OPPONENT_STARTING_X - BALL_SIZE
-		self.ball.y = RENDER_TARGET_HEIGHT / 2 - BALL_SIZE
+		self.ball.x = player_scored and player_starting_x + self.player.width - 1 or opponent_starting_x - BallData.hitbox_size
+		self.ball.y = RENDER_TARGET_HEIGHT / 2 - BallData.hitbox_size
 		self.ball.dy = math.random(-50, 50)
 		local dx = math.random(140, 200)
 		self.ball.dx = player_scored and dx or -dx
@@ -182,8 +178,8 @@ function PlayingState:handle_collision()
 			player_score = player_score + 1
 		end
 
-		self.player.y = PLAYERS_STARTING_Y
-		self.opponent.y = PLAYERS_STARTING_Y
+		self.player.y = player_starting_y
+		self.opponent.y = opponent_starting_y
 		GAME_STATE:push(CountdownState:new({ count_from = 3, count_till = 0 }))
 	end
 end

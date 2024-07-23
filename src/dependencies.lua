@@ -3,6 +3,10 @@ require("lib.strict")
 
 require("src.constants")
 
+require("src.data.ball")
+require("src.data.opponent")
+require("src.data.player")
+
 require("src.utils")
 
 require("src.assets")
