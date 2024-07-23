@@ -52,12 +52,9 @@ function PlayingState:new(o)
 		y = RENDER_TARGET_HEIGHT / 2 - BallData.hitbox_size,
 		width = BallData.hitbox_size,
 		height = BallData.hitbox_size,
-		dx = 0,
-		dy = 0
+		dx = math.random() % 2 and self:get_ball_random_dx() or -self:get_ball_random_dx(),
+		dy = math.random(BallData.min_starting_dy, BallData.max_starting_dy)
 	}
-	self.ball.dy = self:get_ball_random_dy()
-	local dx = self:get_ball_random_dx()
-	self.ball.dx = math.random() % 2 and dx or -dx
 
 	setmetatable(o, { __index = self })
 	return o
