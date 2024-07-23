@@ -27,10 +27,11 @@ end
 
 function Range:update()
 	local mouse_release_x, mouse_release_y = love.mouse.release_position.x, love.mouse.release_position.y
-	local is_clicked = Collides(self.x, self.y, self:getWidth(), self:getHeight(), mouse_release_x, mouse_release_y, 1, 1)
+	local is_clicked = Collides(self.x, self.y, self:get_width(), self:get_height(), mouse_release_x, mouse_release_y, 1,
+		1)
 
 	local mouse_x, mouse_y = love.mouse.position.x, love.mouse.position.y
-	local is_cursor_over_range = Collides(self.x, self.y, self:getWidth(), self:getHeight(), mouse_x, mouse_y, 1, 1)
+	local is_cursor_over_range = Collides(self.x, self.y, self:get_width(), self:get_height(), mouse_x, mouse_y, 1, 1)
 	self.hovered = is_cursor_over_range
 
 	if is_clicked then
@@ -45,20 +46,20 @@ function Range:update()
 	end
 end
 
-function Range:getHeight()
+function Range:get_height()
 	return 10;
 end
 
-function Range:getWidth()
+function Range:get_width()
 	return self.width;
 end
 
 function Range:get_cursor_height()
-	return self:getHeight() * 3
+	return self:get_height() * 3
 end
 
 function Range:get_cursor_width()
-	return self:getHeight()
+	return self:get_height()
 end
 
 function Range:get_one_step_width()
@@ -68,11 +69,11 @@ end
 
 function Range:draw()
 	love.graphics.setColor(self.hovered and AS_COLORS["yellow"] or AS_COLORS["light_gray"])
-	love.graphics.rectangle("line", self.x, self.y, self.width, self:getHeight())
+	love.graphics.rectangle("line", self.x, self.y, self.width, self:get_height())
 	love.graphics.rectangle(
 		"fill",
 		self.x + ((self.value - self.min) / self.step * self:get_one_step_width()) - (self:get_cursor_width() / 2) - 1,
-		self.y - self:getHeight(),
+		self.y - self:get_height(),
 		self:get_cursor_width() + 2,
 		self:get_cursor_height()
 	)

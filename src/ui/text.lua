@@ -3,7 +3,7 @@
 ---@field font love.Font
 ---@field x number
 ---@field y number
----@field color RGBA 
+---@field color RGBA
 Text = {}
 
 function Text:new(o)
@@ -14,12 +14,12 @@ function Text:new(o)
 	return o
 end
 
-function Text:getWidth()
-    return self.font:getWidth(self.text)
+function Text:get_width()
+	return self.font:getWidth(self.text)
 end
 
-function Text:getHeight()
-    return self.font:getHeight()
+function Text:get_height()
+	return self.font:getHeight()
 end
 
 function Text:update()

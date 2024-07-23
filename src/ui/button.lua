@@ -40,10 +40,11 @@ end
 
 function Button:update()
 	local mouse_release_x, mouse_release_y = love.mouse.release_position.x, love.mouse.release_position.y
-	local is_clicked = Collides(self.x, self.y, self:getWidth(), self:getHeight(), mouse_release_x, mouse_release_y, 1, 1)
+	local is_clicked = Collides(self.x, self.y, self:get_width(), self:get_height(), mouse_release_x, mouse_release_y, 1,
+		1)
 
 	local mouse_x, mouse_y = love.mouse.position.x, love.mouse.position.y
-	local is_cursor_over_button = Collides(self.x, self.y, self:getWidth(), self:getHeight(), mouse_x, mouse_y, 1, 1)
+	local is_cursor_over_button = Collides(self.x, self.y, self:get_width(), self:get_height(), mouse_x, mouse_y, 1, 1)
 	self.hovered = is_cursor_over_button
 
 	if is_clicked then
@@ -51,10 +52,10 @@ function Button:update()
 	end
 end
 
-function Button:getHeight()
+function Button:get_height()
 	return self.font:getHeight() + PADDING * 2
 end
 
-function Button:getWidth()
+function Button:get_width()
 	return self.font:getWidth(self.text) + PADDING * 2
 end

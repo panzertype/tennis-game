@@ -9,12 +9,12 @@ function Dimensions:new()
     return instance
 end
 
-function Dimensions:getWidth()
-    assert(false, "Dimensions getWidth method not implemented")
+function Dimensions:get_width()
+    assert(false, "Dimensions get_width method not implemented")
     return 0
 end
 
-function Dimensions:getHeight()
-    assert(false, "Dimensions getHeight method not implemented")
+function Dimensions:get_height()
+    assert(false, "Dimensions get_height method not implemented")
     return 0
 end

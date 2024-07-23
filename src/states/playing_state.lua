@@ -41,6 +41,7 @@ function PlayingState:new(o)
 	self.opponent = Opponent:new {
 		x = OPPONENT_STARTING_X,
 		y = PLAYERS_STARTING_Y,
+		speed = 100,
 		width = PLAYERS_WIDTH,
 		height = PLAYERS_HEIGHT,
 		sprite = DrawableSprite:new({

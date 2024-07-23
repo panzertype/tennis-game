@@ -53,8 +53,8 @@ function ColorPickerState:new(o)
 			on_press = function()
 				o.on_pick(o.colors[o.current_color_index], o.current_color_index)
 			end,
-			x = (RENDER_TARGET_WIDTH / 2) - (pick_button:getWidth() / 2),
-			y = RENDER_TARGET_HEIGHT - pick_button:getHeight() - UI_BUTTON_DEFAULT_PADDING
+			x = (RENDER_TARGET_WIDTH / 2) - (pick_button:get_width() / 2),
+			y = RENDER_TARGET_HEIGHT - pick_button:get_height() - UI_BUTTON_DEFAULT_PADDING
 		})
 	setmetatable(o, { __index = self })
 	return o

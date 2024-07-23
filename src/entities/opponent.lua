@@ -3,6 +3,7 @@
 ---@field y number
 ---@field width number
 ---@field height number
+---@field speed number
 ---@field sprite DrawableSprite
 Opponent = {}
 
@@ -16,13 +17,12 @@ end
 ---@param dt number
 ---@param ball Ball
 function Opponent:update(dt, ball)
-	local speed = 100
 	local half_height = self.height / 2
 
 	if ball.y > self.y + half_height then
-		self.y = self.y + speed * dt
+		self.y = self.y + self.speed * dt
 	elseif ball.y < self.y + half_height then
-		self.y = self.y - speed * dt
+		self.y = self.y - self.speed * dt
 	end
 end
 

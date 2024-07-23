@@ -23,8 +23,8 @@ function Stack:setup()
 	local total_height = 0
 	local total_width = 0
 	for i = 1, #self.children do
-		local child_width = self.children[i]:getWidth()
-		local child_height = self.children[i]:getHeight()
+		local child_width = self.children[i]:get_width()
+		local child_height = self.children[i]:get_height()
 		assert(child_height > 0)
 		assert(child_width > 0)
 
@@ -55,22 +55,22 @@ function Stack:setup()
 
 	for i = 1, #self.children do
 		self.children[i].x = self.direction == 'horizontal' and x - (total_width / 2) or
-			x - (self.children[i]:getWidth() / 2)
+			x - (self.children[i]:get_width() / 2)
 		self.children[i].y = y
 		local gap = i ~= #self.children and self.gap or 0
 		if self.direction == 'vertical' then
-			y = y + self.children[i]:getHeight() + gap
+			y = y + self.children[i]:get_height() + gap
 		else
-			x = x + self.children[i]:getWidth() + gap
+			x = x + self.children[i]:get_width() + gap
 		end
 	end
 end
 
-function Stack:getWidth()
+function Stack:get_width()
 	return self.width
 end
 
-function Stack:getHeight()
+function Stack:get_height()
 	return self.height
 end
 

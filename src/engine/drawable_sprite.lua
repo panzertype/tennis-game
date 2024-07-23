@@ -20,11 +20,11 @@ function DrawableSprite:new(o)
 	return o
 end
 
-function DrawableSprite:getWidth()
+function DrawableSprite:get_width()
 	return self.graphics:getWidth() * self.scale
 end
 
-function DrawableSprite:getHeight()
+function DrawableSprite:get_height()
 	return self.graphics:getHeight() * self.scale
 end
 
