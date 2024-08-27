@@ -67,6 +67,7 @@ function PlayingState:update(dt)
 	end
 
 	self:handle_collision()
+	self:handle_scores()
 	self.ball:update(dt)
 	self:update_player(dt)
 	self.opponent:update(dt, self.ball)
@@ -136,48 +137,16 @@ function PlayingState:bounce_ball_y()
 end
 
 ---@private
-function PlayingState:handle_collision()
-	if EntitiesCollide(self.player, self.ball) then
-		AS_AUDIO['racket_hit']:stop()
-		AS_AUDIO['racket_hit']:play()
-		print("Player hit: ", self.ball.x, self.ball.y)
-
-		self.ball.dx = -self.ball.dx * BallData.speed_multiplier
-		self.ball.x = self.player.x + self.player.width
-
-		self:bounce_ball_y()
-	end
-
-	if EntitiesCollide(self.opponent, self.ball) then
-		AS_AUDIO['racket_hit']:stop()
-		AS_AUDIO['racket_hit']:play()
-		print("Opponent hit: ", self.ball.x, self.ball.y)
-
-		self.ball.dx = -self.ball.dx * BallData.speed_multiplier
-		self.ball.x = self.opponent.x - BallData.hitbox_size
-
-		self:bounce_ball_y()
-	end
-
-	if self.ball.y <= 0 then
-		self.ball.y = 0
-		self.ball.dy = -self.ball.dy
-	end
-
-	if self.ball.y >= RENDER_TARGET_HEIGHT - BallData.hitbox_size then
-		self.ball.y = RENDER_TARGET_HEIGHT - BallData.hitbox_size
-		self.ball.dy = -self.ball.dy
-	end
-
+function PlayingState:handle_scores()
 	local opponent_scored = self.ball.x < 0
 	local player_scored = self.ball.x + BallData.hitbox_size > RENDER_TARGET_WIDTH
 
 	if opponent_scored or player_scored then
-		self.ball.x = player_scored and player_starting_x + self.player.width - 1 or opponent_starting_x - BallData.hitbox_size
+		self.ball.x = player_scored and player_starting_x + self.player.width or opponent_starting_x - BallData.hitbox_size
 		self.ball.y = RENDER_TARGET_HEIGHT / 2 - BallData.hitbox_size
-		self.ball.dy = self:get_ball_random_dy()
+		self.ball.dy = math.random() > 0.5 and -1 or 1
 		local dx = self:get_ball_random_dx()
-		self.ball.dx = player_scored and dx or -dx
+		self.ball.dx = player_scored and -dx or dx
 
 		if opponent_scored then
 			opponent_score = opponent_score + 1
@@ -188,5 +157,50 @@ function PlayingState:handle_collision()
 		self.player.y = player_starting_y
 		self.opponent.y = opponent_starting_y
 		GAME_STATE:push(CountdownState:new({ count_from = 3, count_till = 0 }))
+	end
+end
+
+---@private
+function PlayingState:handle_collision()
+	if EntitiesCollide(self.player, self.ball) then
+		local is_ball_flying_from_player = self.ball.dx > 0
+
+		-- avoid multiple hits
+		if not is_ball_flying_from_player then
+			AS_AUDIO['racket_hit']:stop()
+			AS_AUDIO['racket_hit']:play()
+			print("Player hit: ", self.ball.x, self.ball.y)
+
+			self.ball.dx = -self.ball.dx * BallData.speed_multiplier
+			self.ball.x = self.player.x + self.player.width
+
+			self:bounce_ball_y()
+		end
+	end
+
+	if EntitiesCollide(self.opponent, self.ball) then
+		local is_ball_flying_from_opponent = self.ball.dx < 0
+
+		-- avoid multiple hits
+		if not is_ball_flying_from_opponent then
+			AS_AUDIO['racket_hit']:stop()
+			AS_AUDIO['racket_hit']:play()
+			print("Opponent hit: ", self.ball.x, self.ball.y)
+
+			self.ball.dx = -self.ball.dx * BallData.speed_multiplier
+			self.ball.x = self.opponent.x - BallData.hitbox_size
+
+			self:bounce_ball_y()
+		end
+	end
+
+	if self.ball.y <= 0 then
+		self.ball.y = 0
+		self.ball.dy = -self.ball.dy
+	end
+
+	if self.ball.y >= RENDER_TARGET_HEIGHT - BallData.hitbox_size then
+		self.ball.y = RENDER_TARGET_HEIGHT - BallData.hitbox_size
+		self.ball.dy = -self.ball.dy
 	end
 end
